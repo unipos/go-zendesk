@@ -166,10 +166,12 @@ func (z *Client) SearchCount(ctx context.Context, opts *CountOptions) (int, erro
 		return 0, err
 	}
 
+	fmt.Println("[go-zendesk] start get")
 	body, err := z.get(ctx, u)
 	if err != nil {
 		return 0, err
 	}
+	fmt.Println("[go-zendesk] end get")
 
 	err = json.Unmarshal(body, &data)
 	if err != nil {
