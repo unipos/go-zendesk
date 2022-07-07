@@ -153,6 +153,8 @@ func (z *Client) Search(ctx context.Context, opts *SearchOptions) (SearchResults
 //
 // ref: https://developer.zendesk.com/rest_api/docs/support/search#show-results-count
 func (z *Client) SearchCount(ctx context.Context, opts *CountOptions) (int, error) {
+	fmt.Println("[go-zendesk] start SearchCount")
+	defer fmt.Println("[go-zendesk] end SearchCount")
 	var data struct {
 		Count int `json:"count"`
 	}
