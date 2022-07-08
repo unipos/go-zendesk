@@ -95,6 +95,7 @@ func (z *Client) SetCredential(cred Credential) {
 
 // get get JSON data from API and returns its body as []bytes
 func (z *Client) get(ctx context.Context, path string) ([]byte, error) {
+	fmt.Println("[go-zendesk] start client get")
 	req, err := http.NewRequest(http.MethodGet, z.baseURL.String()+path, nil)
 	if err != nil {
 		return nil, err
@@ -102,23 +103,28 @@ func (z *Client) get(ctx context.Context, path string) ([]byte, error) {
 
 	req = z.prepareRequest(ctx, req)
 
+	fmt.Printf("[go-zendesk] request: %#v", req)
 	resp, err := z.httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	}
 	defer resp.Body.Close()
 
+	fmt.Printf("[go-zendesk] resp: %#v", resp)
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return nil, err
 	}
 
+	fmt.Printf("[go-zendesk] body: %#v", body)
 	if resp.StatusCode != http.StatusOK {
 		return nil, Error{
 			body: body,
 			resp: resp,
 		}
 	}
+
+	fmt.Println("[go-zendesk] end client get")
 	return body, nil
 }
 
